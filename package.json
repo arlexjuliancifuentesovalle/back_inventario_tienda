@@ -4,6 +4,7 @@
   "description": "se encarga de listar el inventario de una tienda inexistente",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +20,7 @@
   },
   "homepage": "https://github.com/arlexjuliancifuentesovalle/back_inventario_tienda#readme",
   "dependencies": {
+    "cors": "^2.8.6",
     "express": "^5.2.1"
   }
 }

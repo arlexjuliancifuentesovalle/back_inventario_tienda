@@ -1,13 +1,16 @@
 const express = require('express');
+const cors = require('cors');
 const ProductRepository = require('./src/repositories/ProductRepository');
 const ProductService = require('./src/services/ProductService');
 const ProductController = require('./src/controllers/ProductController');
 const createProductRouter = require('./src/routes/product.routes');
 
 const app = express();
-const PORT = 3000;
+// Usa el puerto asignado por el servidor o el 3000 por defecto
+const PORT = process.env.PORT || 3000;
 
-// Middleware para entender JSON
+// Middlewares
+app.use(cors()); // Permite peticiones desde un Frontend en otro dominio
 app.use(express.json());
 
 // ============================================
