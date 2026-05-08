@@ -1,0 +1,24 @@
+{
+  "name": "back_inventario_tienda",
+  "version": "1.0.0",
+  "description": "se encarga de listar el inventario de una tienda inexistente",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arlexjuliancifuentesovalle/back_inventario_tienda.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/arlexjuliancifuentesovalle/back_inventario_tienda/issues"
+  },
+  "homepage": "https://github.com/arlexjuliancifuentesovalle/back_inventario_tienda#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
