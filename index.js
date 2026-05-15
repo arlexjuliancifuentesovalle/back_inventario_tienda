@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
+const sequelize = require('./src/config/database');
 const ProductRepository = require('./src/repositories/ProductRepository');
 const ProductService = require('./src/services/ProductService');
 const ProductController = require('./src/controllers/ProductController');
@@ -44,13 +44,13 @@ app.get('/', (req, res) => {
 });
 
 // Iniciamos el servidor y la conexión a la base de datos
-mongoose.connect(process.env.MONGO_URI)
+sequelize.sync()
   .then(() => {
-    console.log('Conectado a MongoDB ✅');
+    console.log('Conectado a PostgreSQL y tablas sincronizadas ✅');
     app.listen(PORT, () => {
       console.log(`Servidor corriendo en http://localhost:${PORT}`);
     });
   })
   .catch(err => {
-    console.error('Error al conectar a MongoDB ❌', err);
+    console.error('Error al conectar a PostgreSQL ❌', err);
   });

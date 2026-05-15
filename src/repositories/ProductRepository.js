@@ -2,30 +2,32 @@ const Product = require('../models/Product');
 
 class ProductRepository {
   async findAll() {
-    return await Product.find({});
+    return await Product.findAll();
   }
 
   async findById(id) {
     try {
-      return await Product.findById(id);
+      return await Product.findByPk(id);
     } catch (error) {
       return null;
     }
   }
 
   async create(productData) {
-    const newProduct = new Product({
+    return await Product.create({
       name: productData.name,
       price: productData.price,
       quantity: productData.quantity
     });
-    return await newProduct.save();
   }
 
   async update(id, productData) {
     try {
-      // { new: true } devuelve el documento actualizado en lugar del original
-      return await Product.findByIdAndUpdate(id, productData, { new: true });
+      const [updatedRows] = await Product.update(productData, { 
+        where: { id } 
+      });
+      if (updatedRows === 0) return null;
+      return await Product.findByPk(id);
     } catch (error) {
       return null;
     }
@@ -33,8 +35,8 @@ class ProductRepository {
 
   async delete(id) {
     try {
-      const deletedProduct = await Product.findByIdAndDelete(id);
-      return !!deletedProduct; // true si lo eliminó, false si no existía
+      const deletedRows = await Product.destroy({ where: { id } });
+      return deletedRows > 0;
     } catch (error) {
       return false;
     }
