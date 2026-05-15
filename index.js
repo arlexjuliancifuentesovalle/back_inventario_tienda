@@ -1,5 +1,7 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
 const ProductRepository = require('./src/repositories/ProductRepository');
 const ProductService = require('./src/services/ProductService');
 const ProductController = require('./src/controllers/ProductController');
@@ -41,7 +43,14 @@ app.get('/', (req, res) => {
   res.send('API de Inventario Funcionando 🚀');
 });
 
-// Iniciamos el servidor
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+// Iniciamos el servidor y la conexión a la base de datos
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log('Conectado a MongoDB ✅');
+    app.listen(PORT, () => {
+      console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error('Error al conectar a MongoDB ❌', err);
+  });

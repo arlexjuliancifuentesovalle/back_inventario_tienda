@@ -10,45 +10,45 @@ class ProductController {
     this.delete = this.delete.bind(this);
   }
 
-  getAll(req, res) {
+  async getAll(req, res) {
     try {
-      const products = this.productService.getAllProducts();
+      const products = await this.productService.getAllProducts();
       res.json(products);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   }
 
-  getById(req, res) {
+  async getById(req, res) {
     try {
-      const product = this.productService.getProductById(req.params.id);
+      const product = await this.productService.getProductById(req.params.id);
       res.json(product);
     } catch (error) {
       res.status(404).json({ message: error.message });
     }
   }
 
-  create(req, res) {
+  async create(req, res) {
     try {
-      const newProduct = this.productService.createProduct(req.body);
+      const newProduct = await this.productService.createProduct(req.body);
       res.status(201).json(newProduct);
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
   }
 
-  update(req, res) {
+  async update(req, res) {
     try {
-      const updatedProduct = this.productService.updateProduct(req.params.id, req.body);
+      const updatedProduct = await this.productService.updateProduct(req.params.id, req.body);
       res.json(updatedProduct);
     } catch (error) {
       res.status(404).json({ message: error.message });
     }
   }
 
-  delete(req, res) {
+  async delete(req, res) {
     try {
-      this.productService.deleteProduct(req.params.id);
+      await this.productService.deleteProduct(req.params.id);
       res.status(204).send();
     } catch (error) {
       res.status(404).json({ message: error.message });

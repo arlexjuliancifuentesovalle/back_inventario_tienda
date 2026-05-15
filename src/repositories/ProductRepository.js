@@ -1,75 +1,43 @@
 const Product = require('../models/Product');
 
 class ProductRepository {
-  constructor() {
-    this.products = [];
-    this.currentId = 1;
-    this.initializeProducts();
+  async findAll() {
+    return await Product.find({});
   }
 
-  initializeProducts() {
-    const defaultProductNames = [
-      "Laptop Gamer", "Mouse Inalámbrico", "Teclado Mecánico", "Monitor 144Hz", 
-      "Audífonos Bluetooth", "Silla Ergonómica", "Escritorio de Madera", "Impresora Láser", 
-      "Cámara Web 1080p", "Micrófono USB", "Disco Duro 1TB", "Memoria RAM 16GB", 
-      "Tarjeta Gráfica RTX 3060", "Fuente de Poder 650W", "Gabinete ATX", 
-      "Cable HDMI 2m", "Router Wi-Fi 6", "Hub USB-C", "Pad Mouse Extra Grande", "Tableta Gráfica"
-    ];
+  async findById(id) {
+    try {
+      return await Product.findById(id);
+    } catch (error) {
+      return null;
+    }
+  }
 
-    defaultProductNames.forEach(name => {
-      // Precio aleatorio entre $50 y $1500
-      const randomPrice = Math.floor(Math.random() * (1500 - 50 + 1)) + 50;
-      // Cantidad aleatoria estricta entre 20 y 40
-      const randomQuantity = Math.floor(Math.random() * (40 - 20 + 1)) + 20;
-
-      this.products.push(new Product(
-        this.currentId++,
-        name,
-        randomPrice,
-        randomQuantity
-      ));
+  async create(productData) {
+    const newProduct = new Product({
+      name: productData.name,
+      price: productData.price,
+      quantity: productData.quantity
     });
+    return await newProduct.save();
   }
 
-  findAll() {
-    return this.products;
+  async update(id, productData) {
+    try {
+      // { new: true } devuelve el documento actualizado en lugar del original
+      return await Product.findByIdAndUpdate(id, productData, { new: true });
+    } catch (error) {
+      return null;
+    }
   }
 
-  findById(id) {
-    return this.products.find(p => p.id === id);
-  }
-
-  create(productData) {
-    const newProduct = new Product(
-      this.currentId++,
-      productData.name,
-      productData.price,
-      productData.quantity
-    );
-    this.products.push(newProduct);
-    return newProduct;
-  }
-
-  update(id, productData) {
-    const index = this.products.findIndex(p => p.id === id);
-    if (index === -1) return null;
-
-    this.products[index] = {
-      ...this.products[index],
-      name: productData.name ?? this.products[index].name,
-      price: productData.price ?? this.products[index].price,
-      quantity: productData.quantity ?? this.products[index].quantity
-    };
-
-    return this.products[index];
-  }
-
-  delete(id) {
-    const index = this.products.findIndex(p => p.id === id);
-    if (index === -1) return false;
-
-    this.products.splice(index, 1);
-    return true;
+  async delete(id) {
+    try {
+      const deletedProduct = await Product.findByIdAndDelete(id);
+      return !!deletedProduct; // true si lo eliminó, false si no existía
+    } catch (error) {
+      return false;
+    }
   }
 }
 

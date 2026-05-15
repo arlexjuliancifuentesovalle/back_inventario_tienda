@@ -4,35 +4,35 @@ class ProductService {
     this.productRepository = productRepository;
   }
 
-  getAllProducts() {
-    return this.productRepository.findAll();
+  async getAllProducts() {
+    return await this.productRepository.findAll();
   }
 
-  getProductById(id) {
-    const product = this.productRepository.findById(Number(id));
+  async getProductById(id) {
+    const product = await this.productRepository.findById(id);
     if (!product) {
       throw new Error('Producto no encontrado');
     }
     return product;
   }
 
-  createProduct(productData) {
+  async createProduct(productData) {
     if (!productData.name || productData.price == null || productData.quantity == null) {
       throw new Error('Faltan datos obligatorios (name, price, quantity)');
     }
-    return this.productRepository.create(productData);
+    return await this.productRepository.create(productData);
   }
 
-  updateProduct(id, productData) {
-    const updatedProduct = this.productRepository.update(Number(id), productData);
+  async updateProduct(id, productData) {
+    const updatedProduct = await this.productRepository.update(id, productData);
     if (!updatedProduct) {
       throw new Error('Producto no encontrado');
     }
     return updatedProduct;
   }
 
-  deleteProduct(id) {
-    const isDeleted = this.productRepository.delete(Number(id));
+  async deleteProduct(id) {
+    const isDeleted = await this.productRepository.delete(id);
     if (!isDeleted) {
       throw new Error('Producto no encontrado');
     }
